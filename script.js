@@ -1,5 +1,5 @@
 /* exported p4_inspirations, p4_initialize, p4_render, p4_mutate */
-function prandomHash(i, min, max) {
+function randomise(i, min, max) {
     randomSeed(i * 200);
     if (max == undefined) {
         max = min;
@@ -10,7 +10,7 @@ function prandomHash(i, min, max) {
 }
 
 function randomHash(i, min, max) {
-    return prandomHash(prandomHash(i, max + min), min, max);
+    return randomise(randomise(i, max + min), min, max);
 }
 
 const MAX_R = { abstract: 200, football: 30, firefox: 25 };
@@ -32,37 +32,37 @@ function p4_initialize(inspiration) {
     resizeCanvas(inspiration.image.width / 4, inspiration.image.height / 4);
     if (inspiration.name.indexOf("abstract") != -1) {
         return {
-            type: "abstract",
-            r_range: { max: 100, min: 50 },
-            opa_range: { min: 128, max: 255 },
+            key: "abstract",
+            length_range: { max: 100, min: 50 },
+            opacity_range: { min: 128, max: 255 },
             intervals: 5,
             sample_x: { min: 0, max: 1 },
             sample_y: { min: 0, max: 1 },
-            c_range: { min: 0, max: 10 }
+            breadth_range: { min: 0, max: 10 }
         };
     }
 
     if (inspiration.name.indexOf("football") != -1) {
         return {
-            type: "football",
-            r_range: { max: 100, min: 20 },
-            opa_range: { min: 128, max: 255 },
+            key: "football",
+            length_range: { max: 100, min: 20 },
+            opacity_range: { min: 128, max: 255 },
             intervals: 3,
             sample_x: { min: 0, max: 1 },
             sample_y: { min: 0, max: 1 },
-            c_range: { min: 0, max: 10 }
+            breadth_range: { min: 0, max: 10 }
         };
     }
 
     if (inspiration.name.indexOf("firefox") != -1) {
         return {
-            type: "firefox",
-            r_range: { max: 100, min: 5 },
-            opa_range: { min: 128, max: 255 },
+            key: "firefox",
+            length_range: { max: 100, min: 5 },
+            opacity_range: { min: 128, max: 255 },
             intervals: 4,
             sample_x: { min: 0, max: 1 },
             sample_y: { min: 0, max: 1 },
-            c_range: { min: 1, max: 10 }
+            breadth_range: { min: 1, max: 10 }
         };
     }
 }
@@ -89,10 +89,10 @@ function p4_render(design, inspiration) {
                 let sx = random(x + design.sample_x.min * inspirationWidth, x + design.sample_x.max * inspirationWidth);
                 let sy = random(y + design.sample_y.min * inspirationHeight, y + design.sample_x.max * inspirationHeight);
 
-                let px_color = inspiration.image.get(sx, sy);
-                px_color[3] = random(design.opa_range.min, design.opa_range.max);
-                fill(px_color);
-                rect(random(x, x + inspirationWidth), random(y, y + inspirationHeight), random(design.r_range.min, design.r_range.max), random(design.r_range.min, design.r_range.max));
+                let pixel_color = inspiration.image.get(sx, sy);
+                pixel_color[3] = random(design.opacity_range.min, design.opacity_range.max);
+                fill(pixel_color);
+                rect(random(x, x + inspirationWidth), random(y, y + inspirationHeight), random(design.length_range.min, design.length_range.max), random(design.length_range.min, design.length_range.max));
             }
             y += inspirationHeight;
         }
@@ -118,14 +118,14 @@ function gen_mut_param(param, mn, mx, rate) {
 }
 //mutate changes inspirations design values
 function p4_mutate(design, inspiration, rate) {
-    design.r_range = gen_mut_param(design.r_range, MIN_R[design.type], MAX_R[design.type], rate);
+    design.length_range = gen_mut_param(design.length_range, MIN_R[design.key], MAX_R[design.key], rate);
 
 
-    design.opa_range = gen_mut_param(design.opa_range, 0, 255, rate);
+    design.opacity_range = gen_mut_param(design.opacity_range, 0, 255, rate);
 
     design.intervals = floor(mut(design.intervals, 2, 20, rate));
     design.sample_x = gen_mut_param(design.sample_x, 0, 1, rate);
     design.sample_y = gen_mut_param(design.sample_y, 0, 1, rate);
 
-    design.c_range = gen_mut_param(design.c_range, MIN_C[design.type], MAX_C[design.type], rate);
+    design.breadth_range = gen_mut_param(design.breadth_range, MIN_C[design.key], MAX_C[design.key], rate);
 }
