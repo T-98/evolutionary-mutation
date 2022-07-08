@@ -71,34 +71,37 @@ function p4_render(design, inspiration) {
     push();
     background(255);
     noStroke();
-
     scale(0.25);
-    let iw = inspiration.image.width / design.intervals;
-    let ih = inspiration.image.height / design.intervals;
+
+    //divide the image into grids
+    let inspirationWidth = inspiration.image.width / design.intervals;
+    let inspirationHeight = inspiration.image.height / design.intervals;
     let [x, y] = [0, 0];
 
+    //horizontal grid
     for (let i = 0; i < design.intervals; i++) {
 
         y = 0;
+        //vertical grid
         for (let j = 0; j < design.intervals; j++) {
-
+            //inside the grid, fill rectangles
             for (let n = 0; n < 10; n++) {
-                let sx = random(x + design.sample_x.min * iw, x + design.sample_x.max * iw);
-                let sy = random(y + design.sample_y.min * ih, y + design.sample_x.max * ih);
+                let sx = random(x + design.sample_x.min * inspirationWidth, x + design.sample_x.max * inspirationWidth);
+                let sy = random(y + design.sample_y.min * inspirationHeight, y + design.sample_x.max * inspirationHeight);
 
                 let px_color = inspiration.image.get(sx, sy);
                 px_color[3] = random(design.opa_range.min, design.opa_range.max);
                 fill(px_color);
-                rect(random(x, x + iw), random(y, y + ih), random(design.r_range.min, design.r_range.max), random(design.r_range.min, design.r_range.max));
+                rect(random(x, x + inspirationWidth), random(y, y + inspirationHeight), random(design.r_range.min, design.r_range.max), random(design.r_range.min, design.r_range.max));
             }
-            y += ih;
+            y += inspirationHeight;
         }
-        x += iw;
+        x += inspirationWidth;
     }
     pop();
 }
 
-// Yanked from Adam Smith's slides...
+// Copied from Adam Smith's slides
 function mut(num, min, max, rate) {
     return constrain(randomGaussian(num, (rate * (max - min)) / 20), min, max);
 }
