@@ -3,19 +3,19 @@
     Author: Divyansh Khare
     Credit: Adam Smith
 
-#### 3 different inspiration images (and results that correspond to each): 3 pts
+#### 3 different inspiration images (and results that correspond to each):
     Three images include:
 	    ![Football](./assets/football.png)
 	    ![Abstract Art](./assets/abstract.png)
 	    ![Firefox symbol](./assets/firefox.png)
 
-#### Explanation of design parameter choices: 2 pts
+#### Explanation of design parameter choices:
     -utilise rectangles to render basic pixels
     -the image is divided into a grid row and column wise
     -each cell of the grid is individually filled with rectangles within its bounds
 
 
-#### Explanation of mutation approach: 2 pts
+#### Explanation of mutation approach:
     I am attempting to change the parameter values for my inspiration based upon the rate using
     Adam Smith's function which utilises constraint and random gaussian function,
     The random gaussian function returns a random number fitting a Gaussian, or normal, distribution.
@@ -26,7 +26,7 @@
 
     Such an approach idolises the pixel generation in a more variable format.  
 
-### Artist statement + what worked, what didn't: 2 pt
+### Artist statement + what worked, what didn't:
     I tried to design the pre existing inspirations to be a bit more artistic than the original image. 
     I tried to make it more colourful and more interesting. Instead of using the original pixel based image generation where each pixel has a fixed length and breadth, I used ractangles
     to generate the pixels. I also used the mutation rate to change the size of the rectangles.
